@@ -1,0 +1,38 @@
+$green: #52C41A;
+
+.realworldBlog {
+    background-color: #fff;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+.realworldBlogTitle {
+  font-size: 18px;
+  font-weight: 400;
+  margin-left: 22px;
+  color: black;
+}
+  
+.signInAndSignUp {
+  margin-right: 22px;
+}
+ 
+.signIn, .signUp {
+  width: 110px;
+  height: 51px;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.signUp {
+  border: 1px solid $green;
+  color: $green;
+}
+
+header {
+  width: 100vw;
+}
