@@ -1,7 +1,7 @@
 import { Layout, Pagination, Spin } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../hooks/customHooks';
 import { fetchArticles } from '../../store/blogAppSlice';
-import { ArticleCard } from '../../components/ArticleCard/articleCard';
+import { ArticleCard } from '../../components/ArticleCard/ArticleCard';
 import styles from './HomePage.module.scss';
 import { useEffect, useState } from 'react';
 

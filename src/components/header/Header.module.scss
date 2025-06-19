@@ -30,9 +30,46 @@ $green: #52C41A;
 
 .signUp {
   border: 1px solid $green;
+  border-radius: 5px;
   color: $green;
+}
+
+a:visited {
+  color: inherit;
 }
 
 header {
   width: 100vw;
+}
+
+.createArticle {
+  border: 1px solid $green;
+  border-radius: 5px;
+  color: $green;
+  width: 113px;
+  height: 32px;
+}
+
+.logOut {
+  width: 109px;
+  height: 51px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.authContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 27px;
+}
+
+.userInfo > a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 13px;
+  &:visited {
+    color: inherit;
+  }
 }
