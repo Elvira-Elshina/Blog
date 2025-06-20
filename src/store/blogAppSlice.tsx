@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { createArticle, updateArticle, deleteArticle } from '../services/fetchData';
+import { createArticle, updateArticle, deleteArticle, favoriteArticle, unfavoriteArticle } from '../services/fetchData';
 
 //state
 interface articleTypes {
@@ -95,6 +95,30 @@ const articlesSlice = createSlice({
         })
         .addCase(deleteArticle.rejected, (state, action) => {
             state.isLoading = false
+            state.error = action.error.message
+        })
+        .addCase(favoriteArticle.fulfilled, (state, action) => {
+            if (state.currentArticle && state.currentArticle.slug === action.payload.article.slug) {
+                state.currentArticle = action.payload.article;
+            }
+            const articleIndex = state.articles.findIndex(article => article.slug === action.payload.article.slug);
+            if (articleIndex !== -1) {
+                state.articles[articleIndex] = action.payload.article;
+            }
+        })
+        .addCase(favoriteArticle.rejected, (state, action) => {
+            state.error = action.error.message
+        })
+        .addCase(unfavoriteArticle.fulfilled, (state, action) => {
+            if (state.currentArticle && state.currentArticle.slug === action.payload.article.slug) {
+                state.currentArticle = action.payload.article;
+            }
+            const articleIndex = state.articles.findIndex(article => article.slug === action.payload.article.slug);
+            if (articleIndex !== -1) {
+                state.articles[articleIndex] = action.payload.article;
+            }
+        })
+        .addCase(unfavoriteArticle.rejected, (state, action) => {
             state.error = action.error.message
         })
     }

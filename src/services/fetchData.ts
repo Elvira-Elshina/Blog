@@ -92,4 +92,56 @@ export const deleteArticle = createAsyncThunk(
     
     return slug;
   }
+);
+
+export const favoriteArticle = createAsyncThunk(
+  'articles/favoriteArticle',
+  async (slug: string) => {
+    const token = localStorage.getItem('authToken');
+    
+    if (!token) {
+      throw new Error('No authorization token found');
+    }
+
+    const response = await fetch(`${baseAPI}/articles/${slug}/favorite`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Token ${token}`
+      }
+    });
+
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.errors ? JSON.stringify(data.errors) : 'Failed to favorite article');
+    }
+    
+    return data;
+  }
+);
+
+export const unfavoriteArticle = createAsyncThunk(
+  'articles/unfavoriteArticle',
+  async (slug: string) => {
+    const token = localStorage.getItem('authToken');
+    
+    if (!token) {
+      throw new Error('No authorization token found');
+    }
+
+    const response = await fetch(`${baseAPI}/articles/${slug}/favorite`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Token ${token}`
+      }
+    });
+
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.errors ? JSON.stringify(data.errors) : 'Failed to unfavorite article');
+    }
+    
+    return data;
+  }
 ); 

@@ -1,4 +1,8 @@
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks/customHooks';
+import { favoriteArticle, unfavoriteArticle } from '../../services/fetchData';
+import { Button } from 'antd';
+import { HeartFilled, HeartOutlined } from '@ant-design/icons';
 import styles from './ArticleCard.module.scss';
 import { Tag } from 'antd';
 import moment from 'moment';
@@ -12,6 +16,7 @@ interface ArticleCardProps {
         tagList: string[];
         createdAt: string;
         favoritesCount: number;
+        favorited: boolean;
         author: {
             username: string;
             image: string;
@@ -20,6 +25,25 @@ interface ArticleCardProps {
 }
 
 export const ArticleCard = ({ values }: ArticleCardProps) => {
+    const dispatch = useAppDispatch();
+    const isAuthenticated = !!localStorage.getItem('authToken');
+
+    const handleFavorite = async () => {
+        if (!isAuthenticated) {
+            return;
+        }
+
+        try {
+            if (values.favorited) {
+                await dispatch(unfavoriteArticle(values.slug)).unwrap();
+            } else {
+                await dispatch(favoriteArticle(values.slug)).unwrap();
+            }
+        } catch (error) {
+            console.error('Error toggling favorite:', error);
+        }
+    };
+
     return (
         <div className={styles.articleCard}>
             <div className={styles.articleCardContent}>
@@ -28,8 +52,14 @@ export const ArticleCard = ({ values }: ArticleCardProps) => {
                         <h2 className={styles.articleCardTitle}>{values.title}</h2>
                     </Link>
                     <div className={styles.likeContainer}>
-                        <p className={styles.like}></p>
-                        {values.favoritesCount}
+                        <Button
+                            type="text"
+                            icon={values.favorited ? <HeartFilled style={{ color: '#ff4d4f' }} /> : <HeartOutlined />}
+                            onClick={handleFavorite}
+                            disabled={!isAuthenticated}
+                            className={styles.likeButton}
+                        />
+                        <span className={styles.likeCount}>{values.favoritesCount}</span>
                     </div>
                 </div>
                 <div className={styles.tagContainer}>

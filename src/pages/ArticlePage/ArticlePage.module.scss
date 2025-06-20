@@ -107,3 +107,11 @@ $green-color: #52C41A;
   border: 1px solid $red-color;
   color: $red-color;
 }
+
+.articleHeaderLikeBlog {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  justify-content: start;
+}
