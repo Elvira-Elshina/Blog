@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from './customHooks';
+import { useAppSelector } from './customHooks';
 import type { UserData } from '../store/authSlice';
 
 export const useAuth = () => {
-    const dispatch = useAppDispatch();
     const userData = useAppSelector((state) => state.loginSliceReducer.userData);
     const isLoading = useAppSelector((state) => state.loginSliceReducer.isLoading);
     const error = useAppSelector((state) => state.loginSliceReducer.error);
@@ -17,6 +16,7 @@ export const useAuth = () => {
         if (token && savedUserData && !isAuthenticated) {
             try {
                 const parsedUserData: UserData = JSON.parse(savedUserData);
+                console.log(parsedUserData);
             } catch (error) {
                 console.error('Error parsing saved user data:', error);
                 localStorage.removeItem('userData');
