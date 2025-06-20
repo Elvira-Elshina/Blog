@@ -1,5 +1,7 @@
 $info-color: #1890FF;
 $description-text-color: #00000080;
+$red-color: #F5222D;
+$green-color: #52C41A;
 
 .articlePage {
   width: 940px;
@@ -80,4 +82,28 @@ $description-text-color: #00000080;
   width: 46px;
   height: 46px;
   border-radius: 50%;
+}
+
+.articleMetaContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: start;
+}
+
+.articleActions {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+}
+
+.editButton {
+  border: 1px solid $green-color;
+  color: $green-color;
+}
+
+.deleteButton {
+  border: 1px solid $red-color;
+  color: $red-color;
 }

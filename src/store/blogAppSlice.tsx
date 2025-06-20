@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createArticle, updateArticle, deleteArticle } from '../services/fetchData';
 
 //state
 interface articleTypes {
@@ -32,7 +33,11 @@ export const fetchArticle = createAsyncThunk('articles/fetchArticle', async (slu
 const articlesSlice = createSlice({
     name: 'articles',
     initialState,
-    reducers: {},
+    reducers: {
+        clearError: (state) => {
+            state.error = null;
+        }
+    },
     extraReducers: (builder) => {
         builder
         .addCase(fetchArticles.pending, (state) => {
@@ -58,7 +63,42 @@ const articlesSlice = createSlice({
             state.isLoading = false
             state.error = action.error.message
         })
+        .addCase(createArticle.pending, (state) => {
+            state.isLoading = true
+            state.error = null
+        })
+        .addCase(createArticle.fulfilled, (state) => {
+            state.isLoading = false
+        })
+        .addCase(createArticle.rejected, (state, action) => {
+            state.isLoading = false
+            state.error = action.error.message
+        })
+        .addCase(updateArticle.pending, (state) => {
+            state.isLoading = true
+            state.error = null
+        })
+        .addCase(updateArticle.fulfilled, (state) => {
+            state.isLoading = false
+        })
+        .addCase(updateArticle.rejected, (state, action) => {
+            state.isLoading = false
+            state.error = action.error.message
+        })
+        .addCase(deleteArticle.pending, (state) => {
+            state.isLoading = true
+            state.error = null
+        })
+        .addCase(deleteArticle.fulfilled, (state) => {
+            state.isLoading = false
+            state.currentArticle = null
+        })
+        .addCase(deleteArticle.rejected, (state, action) => {
+            state.isLoading = false
+            state.error = action.error.message
+        })
     }
 })
 
+export const { clearError } = articlesSlice.actions;
 export default articlesSlice.reducer;

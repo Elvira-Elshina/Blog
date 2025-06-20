@@ -30,7 +30,7 @@ export const Header = () => {
                     :
                         <div className={styles.authContainer}>
                             <button className={styles.createArticle}>
-                                Create article
+                                <Link to="/new-article">Create article</Link>
                             </button>
                             <div className={styles.userInfo}>
                                 <Link to='/profile'>

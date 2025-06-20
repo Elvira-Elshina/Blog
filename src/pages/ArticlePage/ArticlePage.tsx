@@ -1,16 +1,42 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/customHooks';
 import { fetchArticle } from '../../store/blogAppSlice';
-import { Layout, Spin, Tag } from 'antd';
+import { deleteArticle } from '../../services/fetchData';
+import { Button, Layout, Spin, Tag, Popconfirm, type PopconfirmProps, notification } from 'antd';
 import Markdown from 'react-markdown';
 import styles from './ArticlePage.module.scss';
+import { ErrorIndicator } from '../../components/ErrorIndicator/ErrorIndicator';
+import moment from 'moment';
 
 export const ArticlePage = () => {
-    const { slug } = useParams();
+    const { slug } = useParams<{ slug: string }>();
     const dispatch = useAppDispatch();
+    const history = useHistory();
     const { currentArticle, isLoading } = useAppSelector(state => state.articleSliceReducer);
+    const currentUser = localStorage.getItem('userData');
+    const username = currentUser ? JSON.parse(currentUser).user.username : null;
 
+    const handleDeleteConfirm: PopconfirmProps['onConfirm'] = async () => {
+        if (slug) {
+            try {
+                await dispatch(deleteArticle(slug)).unwrap();
+                notification.success({
+                    message: 'Статья успешно удалена',
+                });
+                history.push('/');
+            } catch (error) {
+                notification.error({
+                    message: 'Ошибка при удалении статьи',
+                });
+            }
+        }
+    };
+      
+    const handleDeleteCancel: PopconfirmProps['onCancel'] = () => {
+        console.log('cancel');
+    };
+    
     useEffect(() => {
         if (slug) {
             dispatch(fetchArticle(slug));
@@ -26,7 +52,7 @@ export const ArticlePage = () => {
     }
 
     if (!currentArticle) {
-        return <div>Статья не найдена</div>;
+        return <ErrorIndicator error="Статья не найдена" />;
     }
 
     return (
@@ -46,14 +72,33 @@ export const ArticlePage = () => {
                             </Markdown>
                         </div>
                     </div>
-                    <div className={styles.articleMeta}>
-                        <div className={styles.authorInfo}>
-                            <div className={styles.authorName}>{currentArticle.author.username}</div>
-                            <div className={styles.articleDate}>
-                                {new Date(currentArticle.createdAt).toLocaleDateString()}
+                    <div className={styles.articleMetaContainer}>
+                        <div className={styles.articleMeta}>
+                            <div className={styles.authorInfo}>
+                                <div className={styles.authorName}>{currentArticle.author.username}</div>
+                                <div className={styles.articleDate}>
+                                    {moment(currentArticle.createdAt).format('MMMM D, YYYY')}
+                                </div>
                             </div>
+                            <img src={currentArticle.author.image} className={styles.authorImage} />
                         </div>
-                        <img src={currentArticle.author.image} className={styles.authorImage} />
+                        {username === currentArticle.author.username && (
+                            <div className={styles.articleActions}>
+                                <Button className={styles.editButton}>
+                                    <Link to={`/articles/${currentArticle.slug}/edit`}>Edit</Link>
+                                </Button>
+                                <Popconfirm 
+                                    title="Are you sure to delete this article?" 
+                                    onConfirm={handleDeleteConfirm} 
+                                    onCancel={handleDeleteCancel}
+                                    okText="Yes"
+                                    cancelText="No"
+                                    placement="right"
+                                >
+                                    <Button className={styles.deleteButton}>Delete</Button>
+                                </Popconfirm>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className={styles.articleContent}>

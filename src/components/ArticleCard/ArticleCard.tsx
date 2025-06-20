@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import styles from './ArticleCard.module.scss';
 import { Tag } from 'antd';
+import moment from 'moment';
 
 interface ArticleCardProps {
     values: {
@@ -42,7 +43,7 @@ export const ArticleCard = ({ values }: ArticleCardProps) => {
                 <div className={styles.authorInfo}>
                     <div className={styles.authorName}>{values.author.username}</div>
                     <div className={styles.articleDate}>
-                        {new Date(values.createdAt).toLocaleDateString()}
+                        {moment(values.createdAt).format('MMMM D, YYYY')}
                     </div>
                 </div>
                 <img src={values.author.image} className={styles.avatar} />

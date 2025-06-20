@@ -7,6 +7,7 @@ import { ArticlePage } from './pages/ArticlePage/ArticlePage';
 import { SignInPage } from './pages/SignInPage/SignInPage';
 import { SignUpPage } from './pages/SignUpPage/SignUpPage';
 import { EditProfilePage } from './pages/EditProfilePage/EditProfilePage';
+import { CreateArticle } from './pages/CreateArticle/CreateArticle';
 
 function BlogApp() {
   return (
@@ -28,6 +29,12 @@ function BlogApp() {
           </Route>
           <ProtectedRoute path="/profile">
             <EditProfilePage />
+          </ProtectedRoute>
+          <ProtectedRoute path="/new-article">
+            <CreateArticle />
+          </ProtectedRoute>
+          <ProtectedRoute path="/articles/:slug/edit">
+            <CreateArticle />
           </ProtectedRoute>
         </Switch>
       </Layout>
