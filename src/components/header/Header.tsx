@@ -38,7 +38,7 @@ export const Header = () => {
                                         {userData.user?.username || 'User'}
                                     </span>
                                     <img 
-                                        src={userData.user?.image || 'src/assets/images/Rectangle1.png'} 
+                                        src={userData.user?.image || '../../src/assets/images/Rectangle.svg'} 
                                         alt="user"
                                         className={styles.userLogo} />
                                 </Link>

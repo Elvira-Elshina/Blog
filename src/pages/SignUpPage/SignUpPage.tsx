@@ -50,6 +50,20 @@ export const SignUpPage = () => {
                   pattern: {
                     value: /^[a-zA-Z0-9]+$/,
                     message: 'Имя должно содержать только латинские буквы и цифры'
+                  },
+                  validate: {
+                    noSpaces: (value) => {
+                      if (value.includes(' ')) {
+                        return 'Имя не должно содержать пробелы';
+                      }
+                      return true;
+                    },
+                    noLeadingOrTrailingSpaces: (value) => {
+                      if (value.startsWith(' ') || value.endsWith(' ')) {
+                        return 'Имя не должно начинаться или заканчиваться пробелами';
+                      }
+                      return true;
+                    }
                   }
              })}
             />
@@ -61,7 +75,22 @@ export const SignUpPage = () => {
                 pattern: {
                   value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                   message: 'Некорректный email'
-                } })}
+                },
+                validate: {
+                  noSpaces: (value) => {
+                    if (value.includes(' ')) {
+                      return 'Email не должен содержать пробелы';
+                    }
+                    return true;
+                  },
+                  noLeadingOrTrailingSpaces: (value) => {
+                    if (value.startsWith(' ') || value.endsWith(' ')) {
+                      return 'Email не должен начинаться или заканчиваться пробелами';
+                    }
+                    return true;
+                  }
+                }
+              })}
             />
             <span style={{color: 'red'}}>{errors.email && typeof errors.email.message === 'string' && errors.email.message}</span>
             <span className={styles.signUpLabel}>Password</span>
@@ -75,6 +104,20 @@ export const SignUpPage = () => {
                   maxLength: {
                     value: 40,
                     message: 'Пароль должен быть не более 40 символов'
+                  },
+                  validate: {
+                    noSpaces: (value) => {
+                      if (value.includes(' ')) {
+                        return 'Пароль не должен содержать пробелы';
+                      }
+                      return true;
+                    },
+                    noLeadingOrTrailingSpaces: (value) => {
+                      if (value.startsWith(' ') || value.endsWith(' ')) {
+                        return 'Пароль не должен начинаться или заканчиваться пробелами';
+                      }
+                      return true;
+                    }
                   }
             })}
             />
