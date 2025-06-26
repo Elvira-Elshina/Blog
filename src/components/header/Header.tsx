@@ -4,6 +4,7 @@ import styles from './Header.module.scss'
 import { useAppDispatch } from '../../hooks/customHooks';
 import { useAuth } from '../../hooks/useAuth';
 import { logout } from '../../store/authSlice';
+import defaultAvatar from '../../assets/images/Rectangle.svg';
 
 export const Header = () => {
     const { userData, isAuthenticated } = useAuth();
@@ -38,7 +39,7 @@ export const Header = () => {
                                         {userData.user?.username || 'User'}
                                     </span>
                                     <img 
-                                        src={userData.user?.image || '../../src/assets/images/Rectangle.svg'} 
+                                        src={userData.user?.image || defaultAvatar} 
                                         alt="user"
                                         className={styles.userLogo} />
                                 </Link>

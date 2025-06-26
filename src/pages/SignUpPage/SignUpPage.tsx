@@ -47,49 +47,36 @@ export const SignUpPage = () => {
                     value: 20,
                     message: 'Имя должно быть не более 20 символов'
                   },
-                  pattern: {
-                    value: /^[a-zA-Z0-9]+$/,
-                    message: 'Имя должно содержать только латинские буквы и цифры'
-                  },
+
                   validate: {
                     noSpaces: (value) => {
-                      if (value.includes(' ')) {
-                        return 'Имя не должно содержать пробелы';
-                      }
-                      return true;
-                    },
-                    noLeadingOrTrailingSpaces: (value) => {
-                      if (value.startsWith(' ') || value.endsWith(' ')) {
-                        return 'Имя не должно начинаться или заканчиваться пробелами';
-                      }
-                      return true;
+                    if (value.includes(' ')) {
+                      return 'Имя не должно содержать пробелы';
                     }
+                    if (!/^[a-zA-Z0-9]+$/.test(value)) {
+                      return 'Имя должно содержать только латинские буквы и цифры';
+                    }
+                    return true;
                   }
+                },
              })}
             />
             <span style={{color: 'red'}}>{errors.username && typeof errors.username.message === 'string' && errors.username.message}</span>
             <span className={styles.signUpLabel}>Email address</span>
-            <input type="email" placeholder="Email address" className={styles.signUpInput} 
+            <input placeholder="Email address" className={styles.signUpInput} 
             {...register('email', { 
-                required: 'Email обязателен для заполнения', 
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: 'Некорректный email'
-                },
-                validate: {
-                  noSpaces: (value) => {
-                    if (value.includes(' ')) {
-                      return 'Email не должен содержать пробелы';
-                    }
-                    return true;
-                  },
-                  noLeadingOrTrailingSpaces: (value) => {
-                    if (value.startsWith(' ') || value.endsWith(' ')) {
-                      return 'Email не должен начинаться или заканчиваться пробелами';
-                    }
-                    return true;
+              validate: {
+                noSpaces: (value) => {
+                  if (value.includes(' ')) {
+                    return 'Email не должен содержать пробелы';
                   }
-                }
+                  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                    return 'Некорректный email';
+                  }
+                  return true;
+                },
+              },
+                required: 'Email обязателен для заполнения',                
               })}
             />
             <span style={{color: 'red'}}>{errors.email && typeof errors.email.message === 'string' && errors.email.message}</span>

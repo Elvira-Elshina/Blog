@@ -4,6 +4,8 @@ import { fetchArticles } from '../../store/blogAppSlice';
 import { ArticleCard } from '../../components/ArticleCard/ArticleCard';
 import styles from './HomePage.module.scss';
 import { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import queryString from 'query-string';
 
 export const HomePage = () => {
   const [paginationValue, setPaginationValue] = useState(1);
@@ -11,13 +13,18 @@ export const HomePage = () => {
   const articlesCount = useAppSelector(state => state.articleSliceReducer.articlesCount);
   const isLoading = useAppSelector(state => state.articleSliceReducer.isLoading);
   const dispatch = useAppDispatch();
+  const history = useHistory();
+  const location = useLocation();
+  const query = queryString.parse(location.search);
+  const activePage = query?.page || 1;
 
   useEffect(() => {
-    dispatch(fetchArticles(paginationValue));
+    dispatch(fetchArticles(Number(activePage)));
   }, [paginationValue]);
 
   function handlePaginationChange(e: number) {
     setPaginationValue(e);
+    history.push(`${location.pathname}?page=${e}`);
   }
 
   return (
@@ -37,7 +44,11 @@ export const HomePage = () => {
         display: 'flex',
         justifyContent: 'center',
         backgroundColor: '#e4e9f1',}}>
-        <Pagination defaultCurrent={1} showSizeChanger={false} total={articlesCount} onChange={handlePaginationChange}/>
+        <Pagination
+          defaultCurrent={Number(activePage)}
+          showSizeChanger={false}
+          total={articlesCount}
+          onChange={handlePaginationChange}/>
       </Layout.Footer>
     </>
   );

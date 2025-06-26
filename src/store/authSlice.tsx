@@ -59,6 +59,9 @@ const loginInitialState: initialStateTypes = {
 const baseAPI = 'https://blog-platform.kata.academy/api';
 
 export const registrationFetch = createAsyncThunk('registration/registrationFetch', async (userData: { username: string, email: string, password: string }) => {
+    console.log(userData.username.trim());
+    
+
     const resp = await fetch(`${baseAPI}/users`, {
         method: 'POST',
         headers: {
