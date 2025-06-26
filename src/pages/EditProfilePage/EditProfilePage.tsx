@@ -60,6 +60,17 @@ export const EditProfilePage = () => {
                     placeholder="Username" 
                     className={styles.editProfileInput}
                     {...register('username', { 
+                        validate: {
+                            noSpaces: (value) => {
+                            if (value.includes(' ')) {
+                              return 'Имя не должно содержать пробелы';
+                            }
+                            if (!/^[a-zA-Z0-9]+$/.test(value)) {
+                              return 'Имя должно содержать только латинские буквы и цифры';
+                            }
+                            return true;
+                          }
+                        },
                         required: 'Username обязателен для заполнения',
                         minLength: {
                             value: 3,
@@ -69,10 +80,7 @@ export const EditProfilePage = () => {
                             value: 20,
                             message: 'Имя должно быть не более 20 символов'
                         },
-                        pattern: {
-                            value: /^[a-zA-Z0-9]+$/,
-                            message: 'Имя должно содержать только латинские буквы и цифры'
-                        }
+
                     })}
                 />
                 {errors.username && typeof errors.username.message === 'string' && (
@@ -83,15 +91,22 @@ export const EditProfilePage = () => {
                 
                 <span className={styles.editProfileLabel}>Email address</span>
                 <input 
-                    type="email" 
+                     
                     placeholder="Email address" 
                     className={styles.editProfileInput}
                     {...register('email', { 
+                        validate: {
+                            noSpaces: (value) => {
+                              if (value.includes(' ')) {
+                                return 'Email не должен содержать пробелы';
+                              }
+                              if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                                return 'Некорректный email';
+                              }
+                              return true;
+                            },
+                          },
                         required: 'Email обязателен для заполнения', 
-                        pattern: {
-                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                            message: 'Некорректный email'
-                        }
                     })}
                 />
                 {errors.email && typeof errors.email.message === 'string' && (
@@ -113,7 +128,21 @@ export const EditProfilePage = () => {
                         maxLength: {
                             value: 40,
                             message: 'Пароль должен быть не более 40 символов'
-                        }
+                        },
+                        validate: {
+                            noSpaces: (value) => {
+                              if (value.includes(' ')) {
+                                return 'Пароль не должен содержать пробелы';
+                              }
+                              return true;
+                            },
+                            noLeadingOrTrailingSpaces: (value) => {
+                              if (value.startsWith(' ') || value.endsWith(' ')) {
+                                return 'Пароль не должен начинаться или заканчиваться пробелами';
+                              }
+                              return true;
+                            }
+                          }
                     })}
                 />
                 {errors.password && typeof errors.password.message === 'string' && (

@@ -124,6 +124,14 @@ export const CreateArticle: React.FC = () => {
             placeholder="Title"
             className={styles.create__form_input}
             {...register('title', {
+              validate: {
+                noSpaces: (value) => {
+                  if (value.trim().length === 0) {
+                    return 'Заголовок не должен быть пустым';
+                  }
+                  return true;
+                },
+              },
               required: 'Заголовок обязателен для заполнения',
             })}
           />
